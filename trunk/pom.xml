@@ -1,5 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>br.com.neppo</groupId>
     <artifactId>memcachefy</artifactId>
@@ -7,6 +12,27 @@
     <name>memcachefy</name>
     <packaging>jar</packaging>
     <description>General purpose object caching api</description>
+    <url>http://code.google.com/p/memcachefy</url>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://memcachefy.googlecode.com/svn/trunk/</url>
+        <connection>scm:svn:https://memcachefy.googlecode.com/svn/trunk/</connection>
+        <developerConnection>scm:svn:https://memcachefy.googlecode.com/svn/trunk/</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <id>bhlangonijr</id>
+            <name>Ben-Hur Carlos Vieira Langoni Junior</name>
+            <email>bhlangonijr@gmail.com</email>
+        </developer>
+    </developers>
+
     <build>
         <plugins>
             <plugin>
