@@ -130,11 +130,11 @@ public class CacheManagerBuilder {
 		}
 
 		/**
-		 * Build a CacheManagerBuilder instance
+		 * Build a CacheManager instance
 		 *
 		 * @return
 		 */
-		public CacheManagerBuilder build() {
+		public CacheManager build() {
 			CacheManager manager;
 			if (CacheType.MEMCACHED.equals(cacheType)) {
 				final MemcachedManager mcache = new MemcachedManager();
@@ -159,7 +159,7 @@ public class CacheManagerBuilder {
 				icache.setTtl(defaultTtl);
 				manager = icache;
 			}
-			return new CacheManagerBuilder(manager);
+			return manager;
 		}
 
 		protected Builder() {

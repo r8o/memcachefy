@@ -15,13 +15,11 @@ public class CacheManagerBuilderTest {
 	@Test
 	public void testOnheapBuilder() throws CacheException {
 
-		CacheManagerBuilder cacheManager = CacheManagerBuilder.newBuilder().
+		CacheManager cacheManager = CacheManagerBuilder.newBuilder().
 				setCacheType(CacheType.ONHEAP).
-				setDefaultTtl(5).build();
-
+				setDefaultTtl(60).build();
 
 		Cache<String, String> cache = cacheManager.getCache("test");
-
 		cache.put("hey", "ola");
 
 		assertEquals("ola", cache.get("hey"));
@@ -31,7 +29,7 @@ public class CacheManagerBuilderTest {
 	@Test
 	public void testMemcachedBuilder() throws CacheException {
 
-		CacheManagerBuilder cacheManager = CacheManagerBuilder.newBuilder().
+		CacheManager cacheManager = CacheManagerBuilder.newBuilder().
 				setCacheType(CacheType.MEMCACHED).
 				setMemcachedHosts("localhost:11211").
 				setDefaultTtl(120).build();
