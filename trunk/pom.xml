@@ -165,16 +165,4 @@
             </snapshots>
         </repository>
     </repositories>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>archiva.default</id>
-            <name>Archiva CTBC Planeta - snapshot</name>
-            <url>${snapshot.url}</url>
-        </snapshotRepository>
-        <repository>
-            <id>archiva.default</id>
-            <name>Archiva CTBC Planeta - release</name>
-            <url>${release.url}</url>
-        </repository>
-    </distributionManagement>
 </project>
