@@ -34,7 +34,7 @@ public class CacheManagerBuilderTest {
 		CacheManagerBuilder cacheManager = CacheManagerBuilder.newBuilder().
 				setCacheType(CacheType.MEMCACHED).
 				setMemcachedHosts("localhost:11211").
-				setDefaultTtl(5).build();
+				setDefaultTtl(120).build();
 
 
 		Cache<String, String> cache = cacheManager.getCache("test");
