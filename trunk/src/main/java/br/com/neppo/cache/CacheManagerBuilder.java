@@ -41,12 +41,13 @@ public class CacheManagerBuilder {
 		private static final int DEFAULT_ENTRY_TTL = 600;
 		private static final int INITIAL_MAX_ENTRIES = 5000;
 		private static final CacheType DEFAULT_CACHE_TYPE = CacheType.ONHEAP;
+		private static final CacheTranscoder DEFAULT_TRANSCODER = CacheTranscoder.KRYO;
 
 		private String memcachedHosts;
 		private JAXBContext jaxbContext;
 		private Kryo kryo;
 		private int defaultTtl = DEFAULT_ENTRY_TTL;
-		private CacheTranscoder cacheTranscoder;
+		private CacheTranscoder cacheTranscoder = DEFAULT_TRANSCODER;
 		private int maxEntries = INITIAL_MAX_ENTRIES;
 		private CacheType cacheType = DEFAULT_CACHE_TYPE;
 
