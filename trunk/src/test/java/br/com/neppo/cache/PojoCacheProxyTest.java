@@ -92,7 +92,7 @@ public class PojoCacheProxyTest {
 
 	static class MyActionWithAnnotation implements Action {
 
-		@Cacheable(ttl = 60, hashKeyGeneratorStrategy = HashKeyGeneratorStrategy.REFLECTION)
+		@Cacheable(ttl = 60)
 		@Override
 		public List<Dummy> listDummy(String str) {
 			List<Dummy> l = new ArrayList<Dummy>();
