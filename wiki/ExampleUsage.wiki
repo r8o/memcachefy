@@ -20,6 +20,7 @@ _*Note*: As of now Memcachefy dependency is still not deployed into a public mav
     -DartifactId=memcachefy -Dversion=1.0.0 -Dpackaging=jar
 }}}
 
+
 = Spring integration =
 
 You may want to use the {{{FactoryBean}}} interface for creating instances of [http://memcachefy.googlecode.com/svn/trunk/javadoc/br/com/neppo/cache/Cache.html Cache] for integration with Spring:
@@ -67,6 +68,7 @@ Then add the bean definition into the spring context configuration file:
     </beans>
 }}}
 
+
 = Intercepting without annotations =
 
 If for some reason you are not able to annotate in the methods of the class you want to enable caching, you can do the follow:
@@ -85,3 +87,28 @@ If for some reason you are not able to annotate in the methods of the class you 
    ServiceInterface service = (ServiceInterface) CacheProxy.newInstance(new MyServiceInterfaceImpl(), infoMap);
 
 }}}
+
+
+= Using serializers = 
+
+When using a cache object backed by Memcached it will be used the [http://code.google.com/p/kryo/ Kryo] serializer by default. You can use other data serializers as such JAXB, or disable the use of any serialization (in that case you _*must*_ have all your classes implementing Serializable).
+
+{{{
+    // Using JAXB for serializing the data
+    // In this case you have to supply it with the JAXBContext, adding all the classes being cached by the API
+    CacheManager cacheManager = CacheManagerBuilder.newBuilder().
+				setCacheType(CacheType.MEMCACHED).
+				setCacheTranscoder(CacheTranscoder.JAXB).
+				setJaxbContext(JAXBContext.newInstance(new Class[]{CacheWrapper.class, Dummy.class})).
+				setMemcachedHosts("localhost:11211").
+				setDefaultTtl(120).build();
+
+    // Disabling other serializers
+    CacheManager cacheManager = CacheManagerBuilder.newBuilder().
+				setCacheType(CacheType.MEMCACHED).
+				setCacheTranscoder(CacheTranscoder.NONE).
+				setMemcachedHosts("localhost:11211").
+				setDefaultTtl(120).build();
+}}}
+
+
