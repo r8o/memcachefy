@@ -31,7 +31,7 @@ Example:
 cache.entry.ttl=60
 cache.type=MEMCACHED
 #cache.initialMaxEntries=5000 ## may be specified if cache.type == ONHEAP
-memcached.hosts=localhost\:11211
+memcached.hosts=host1\:11211, host2\:11211 
 memcached.transcoder=NONE
 
 }}}
