@@ -20,7 +20,7 @@ _*Note*: As of now Memcachefy dependency is still not deployed into a public mav
     -DartifactId=memcachefy -Dversion=1.0.0 -Dpackaging=jar
 }}}
 
-= Configuring the Cache Interceptor =
+= Configuring the cache interceptor =
 
 By default, it will try to read a configuration file named "cache-manager.properties" in the classpath.
 
