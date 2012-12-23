@@ -13,7 +13,7 @@ Import the jar file (memcachefy-1.0.0.jar) into the _classpath_ of your project.
      </dependency>
 }}}
 
-_*Note*: As of now Memcachefy dependency is still not deployed into a public maven repository. You can install it into your local repository by manually downloading the jar executing the command:_
+_*Note*: As of now Memcachefy dependency is still not deployed into a public maven repository. You can install it into your local repository by manually downloading the jar and executing the command:_
 
 {{{
     mvn install:install-file -Dfile=memcachefy-1.0.0 -DgroupId=br.neppo.com.br \ 
