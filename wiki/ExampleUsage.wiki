@@ -59,7 +59,7 @@ You may want to use the {{{FactoryBean}}} interface for creating instances of [h
 Then add the bean definition into the spring context configuration file:
 
 {{{
-    <beans ..."> 
+    <beans ...> 
         <bean name="cacheBean" class="CacheBean">
             <property name="port" value="11211"/>
             <property name="host" value="localhost"/>
