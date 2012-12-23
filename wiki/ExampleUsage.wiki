@@ -20,7 +20,7 @@ _*Note*: As of now Memcachefy dependency is still not deployed into a public mav
     -DartifactId=memcachefy -Dversion=1.0.0 -Dpackaging=jar
 }}}
 
-== Spring integration ==
+= Spring integration =
 
 You may want to use the {{{FactoryBean}}} interface for creating instances of [http://memcachefy.googlecode.com/svn/trunk/javadoc/br/com/neppo/cache/Cache.html Cache] for integration with Spring:
 
