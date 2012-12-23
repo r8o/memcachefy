@@ -71,14 +71,13 @@ Then add the bean definition into the spring context configuration file:
 
 If for some reason you are not able to annotate in the methods of the class you want to enable caching, you can do the follow:
 {{{
-    static interface ServiceInterface {
+    interface ServiceInterface {
         List<String> someMethod(String str);
         String otherMethod(int a, int b);
     }
     ...
     //Create a map with the cache options
     Map<String, CacheInfo> infoMap = new HashMap<String, CacheInfo>();
-
     infoMap.put("someMethod", new CacheInfo(60/*ttl*/));
     infoMap.put("otherMethod", new CacheInfo(120/*ttl*/));
 
