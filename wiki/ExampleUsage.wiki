@@ -151,7 +151,7 @@ In the example below it's been enabled the option {{{enableMinCacheHitVerificati
 }}}
 
 In the example below negative caching is enabled for the given method.
-_*Note:* Enabling this option can be harmful if you don't know exactly the extension of caching null results from the perspective of the rules present in your business_
+_*Note:* Enabling this option can be harmful if you don't know exactly the impacts of caching null results for your business rules._
 {{{
     @Cacheable(ttl = 400, negativeCache = true)
     @Override
