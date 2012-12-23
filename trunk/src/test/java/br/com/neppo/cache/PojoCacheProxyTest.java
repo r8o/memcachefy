@@ -3,7 +3,6 @@
  */
 package br.com.neppo.cache;
 
-import br.com.neppo.cache.hashkey.HashKeyGeneratorStrategy;
 import br.com.neppo.cache.interceptor.CacheInfo;
 import br.com.neppo.cache.interceptor.Cacheable;
 import org.apache.log4j.BasicConfigurator;
@@ -27,7 +26,7 @@ public class PojoCacheProxyTest {
 	public void init() throws CacheException {
 		infoMap = new HashMap<String, CacheInfo>();
 
-		infoMap.put("listDummy", new CacheInfo(60, HashKeyGeneratorStrategy.REFLECTION));
+		infoMap.put("listDummy", new CacheInfo(60));
 
 		CacheFactory.getCache("DefaultCache").clear();
 	}
