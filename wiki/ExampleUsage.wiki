@@ -20,6 +20,34 @@ _*Note*: As of now Memcachefy dependency is still not deployed into a public mav
     -DartifactId=memcachefy -Dversion=1.0.0 -Dpackaging=jar
 }}}
 
+= Configuring the CacheInterceptor =
+
+By default, it will try to read a configuration file named "cache-manager.properties" in the classpath.
+
+Example:
+{{{
+## file: cache-manager.properties
+
+cache.entry.ttl=60
+cache.type=MEMCACHED
+cache.initialMaxEntries=5000
+memcached.hosts=localhost\:11211
+memcached.transcoder=NONE
+
+}}}
+
+When using the [http://memcachefy.googlecode.com/svn/trunk/javadoc/br/com/neppo/cache/CacheProxy.html CacheProxy] you can supply new instances of the proxy with custom cache objects:
+
+{{{
+    CacheManager cacheManager = CacheManagerBuilder.newBuilder().
+		setCacheType(CacheType.ONHEAP).
+		setDefaultTtl(60).build();
+
+    Cache<String, Object> cache = cacheManager.getCache("test");
+		
+    Action action = (Action) CacheProxy.newInstance(new MyAction(), cache);
+
+}}}
 
 = Spring integration =
 
@@ -110,5 +138,3 @@ When using a cache object backed by Memcached it will be used the [http://code.g
 				setMemcachedHosts("localhost:11211").
 				setDefaultTtl(120).build();
 }}}
-
-
