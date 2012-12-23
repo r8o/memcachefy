@@ -11,7 +11,7 @@
     <version>1.0.0</version>
     <name>memcachefy</name>
     <packaging>jar</packaging>
-    <description>General purpose object caching api</description>
+    <description>Java API for Rapidly Enable Caching for Web Applications and Services</description>
     <url>http://code.google.com/p/memcachefy</url>
     <licenses>
         <license>
