@@ -45,7 +45,7 @@ public class CacheInfo {
 	public CacheInfo() {
 		this.enabled = true;
 		this.ttl = 600;
-		this.hashKeyGeneratorStrategy = HashKeyGeneratorStrategy.OBJECT_HASHCODE;
+		this.hashKeyGeneratorStrategy = HashKeyGeneratorStrategy.REFLECTION;
 		this.enableMinCacheHitVerification = false;
 		this.minCacheHitRatioRequired = 0.20;
 		this.minCacheHitRatioCounting = 50;
@@ -56,6 +56,16 @@ public class CacheInfo {
 		this.enabled = true;
 		this.ttl = ttl;
 		this.hashKeyGeneratorStrategy = hashKeyGeneratorStrategy;
+		this.enableMinCacheHitVerification = false;
+		this.minCacheHitRatioRequired = 0.20;
+		this.minCacheHitRatioCounting = 50;
+		this.negativeCache = false;
+	}
+
+	public CacheInfo(int ttl) {
+		this.enabled = true;
+		this.ttl = ttl;
+		this.hashKeyGeneratorStrategy = HashKeyGeneratorStrategy.REFLECTION;
 		this.enableMinCacheHitVerification = false;
 		this.minCacheHitRatioRequired = 0.20;
 		this.minCacheHitRatioCounting = 50;
