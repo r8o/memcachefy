@@ -39,12 +39,9 @@ memcached.transcoder=NONE
 When using the [http://memcachefy.googlecode.com/svn/trunk/javadoc/br/com/neppo/cache/CacheProxy.html CacheProxy] you can supply new instances of the proxy with custom cache objects:
 
 {{{
-    CacheManager cacheManager = CacheManagerBuilder.newBuilder().
-		setCacheType(CacheType.ONHEAP).
-		setDefaultTtl(60).build();
+    CacheManager cacheManager = CacheManagerBuilder.newBuilder()....build();
 
     Cache<String, Object> cache = cacheManager.getCache("test");
-		
     Action action = (Action) CacheProxy.newInstance(new MyAction(), cache);
 
 }}}
