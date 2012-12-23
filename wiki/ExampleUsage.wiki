@@ -116,7 +116,7 @@ If for some reason you are not able to annotate in the methods of the class you 
 
 = Using serializers = 
 
-When using a cache object backed by Memcached it will be used the [http://code.google.com/p/kryo/ Kryo] serializer by default. You can use other data serializers as such JAXB, or disable the use of any serialization (in that case you _*must*_ have all your classes implementing Serializable).
+When creating a cache object backed by Memcached it will be using the [http://code.google.com/p/kryo/ Kryo] serializer by default. You can use other data serializers as such JAXB, or disable the use of any serialization (in that case you _*must*_ have all your classes implementing Serializable).
 
 {{{
     // Using JAXB for serializing the data
