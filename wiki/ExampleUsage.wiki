@@ -139,7 +139,7 @@ When creating a cache object backed by Memcached it will be using the [http://co
 = Caching options =
 
 There are some caching options that might help you increasing the efficiency of the cache.
-In the example below it's been enable the option {{{enableMinCacheHitVerification}}} which will permanently disable caching for the given method if the cache hit _ratio_ is bellow 40% of the total calls to the method after 300 calls.
+In the example below it's been enabled the option {{{enableMinCacheHitVerification}}} which will permanently disable caching for the given method if the cache hit _ratio_ is bellow 40% of the total calls to the method after 300 calls.
 {{{
     @Cacheable(ttl = 60, enableMinCacheHitVerification = true,
                          minCacheHitRatioRequired = 0.40, 
