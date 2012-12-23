@@ -33,7 +33,7 @@ You may want to use the {{{FactoryBean}}} interface for creating instances of [h
 		public Cache getObject() throws Exception {
 			return CacheManagerBuilder.newBuilder().
 					setCacheType(CacheType.MEMCACHED).
-					setMemcachedHosts("localhost:11211").
+						setMemcachedHosts(host+":"+port).
 					setDefaultTtl(120).build().getCache("cache");
 		}
 
