@@ -36,7 +36,7 @@ memcached.transcoder=NONE
 
 }}}
 
-When using the [http://memcachefy.googlecode.com/svn/trunk/javadoc/br/com/neppo/cache/CacheProxy.html CacheProxy] you can supply new instances of the proxy with custom cache objects:
+When using the [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/CacheProxy.html CacheProxy] you can supply new instances of the proxy with custom cache objects:
 
 {{{
     CacheManager cacheManager = CacheManagerBuilder.newBuilder()....build();
@@ -48,7 +48,7 @@ When using the [http://memcachefy.googlecode.com/svn/trunk/javadoc/br/com/neppo/
 
 = Spring integration =
 
-You may want to use the {{{FactoryBean}}} interface for creating instances of [http://memcachefy.googlecode.com/svn/trunk/javadoc/br/com/neppo/cache/Cache.html Cache] for integration with Spring:
+You may want to use the {{{FactoryBean}}} interface for creating instances of [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/Cache.html Cache] for integration with Spring:
 
 {{{
 	public class CacheBean implements FactoryBean<Cache> {
