@@ -7,7 +7,7 @@ Import the jar file (memcachefy-1.0.0.jar) into the _classpath_ of your project.
 
 {{{
     <dependency>
-        <groupId>br.com.neppo</groupId>
+        <groupId>com.googlecode.memcachefy</groupId>
         <artifactId>memcachefy</artifactId>
         <version>1.0.0</version>
      </dependency>
@@ -16,7 +16,7 @@ Import the jar file (memcachefy-1.0.0.jar) into the _classpath_ of your project.
 _*Note*: As of now Memcachefy dependency is still not deployed into a public maven repository. You can install it into your local repository by manually downloading the jar and executing the command:_
 
 {{{
-    mvn install:install-file -Dfile=memcachefy-1.0.0 -DgroupId=br.com.neppo \ 
+    mvn install:install-file -Dfile=memcachefy-1.0.0 -DgroupId=com.googlecode.memcachefy \ 
     -DartifactId=memcachefy -Dversion=1.0.0 -Dpackaging=jar
 }}}
 
