@@ -91,7 +91,7 @@ public class PojoCacheProxyTest {
 
 	static class MyActionWithAnnotation implements Action {
 
-		@Cacheable(ttl = 60)
+		@Cacheable(ttl = 60, negativeCache = true)
 		@Override
 		public List<Dummy> listDummy(String str) {
 			List<Dummy> l = new ArrayList<Dummy>();
