@@ -6,11 +6,11 @@ Examples
 Import the jar file (memcachefy-1.0.0.jar) into the _classpath_ of your project. In case you are a Maven user you can add the following dependency:
 
 {{{
-    <dependency>
-        <groupId>com.googlecode.memcachefy</groupId>
-        <artifactId>memcachefy</artifactId>
-        <version>1.0.0</version>
-     </dependency>
+<dependency>
+  <groupId>com.googlecode.memcachefy</groupId>
+  <artifactId>memcachefy</artifactId>
+  <version>1.0.0</version>
+</dependency>
 }}}
 
 _*Note*: As of now Memcachefy dependency is still not deployed into a public maven repository. You can install it into your local repository by manually downloading the jar and executing the command:_
