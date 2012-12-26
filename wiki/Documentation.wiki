@@ -1,5 +1,5 @@
-#labels Phase-Implementation
-Memcachefy API Explaned
+#labels Phase-Design
+Overview
 
 = What is it? = 
 
