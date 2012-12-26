@@ -1,0 +1,29 @@
+An easy and seamless way of integrating web applications and/or services with distributed cache systems like [http://memcached.org/ Memcached] without the burden of refactoring or re-designing the actual code. It also provides an _on heap_ cache implementation in case you don't need a distributed cache system.
+
+
+= Start using =
+
+Memcachefy is available in Maven Central under the identifier:
+
+  * [http://search.maven.org/#artifactdetails%7Ccom.googlecode.memcachefy%7Cmemcachefy%7C1.0.0%7Cjar com.googlecode.memcachefy:memcachefy-1.0.0]
+
+You can download the JAR at:
+
+  * [http://search.maven.org/remotecontent?filepath=com/googlecode/memcachefy/memcachefy/1.0.0/memcachefy-1.0.0.jar memcachefy-1.0.0.jar]
+
+
+= Features =
+  
+  * Simple base Cache API designed for easy of use; 
+  * Distributed _off-heap_ support;
+  * On-heap support with configurable time-to-live and max entries;
+  * Non-native serialization support (Allow caching Java objects not implementing the Serializable interface);
+  * Interceptor API for transparently enable caching for regular Java objects or EJBs;
+  * Cache live statistics through Log4J; 
+
+
+= Learn how to use it =
+
+  * [http://code.google.com/p/memcachefy/wiki/Documentation Overview]
+  * [http://code.google.com/p/memcachefy/wiki/Configuration Configuration]
+  * [http://code.google.com/p/memcachefy/wiki/Examples Examples]
