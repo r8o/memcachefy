@@ -11,3 +11,10 @@ In addition, Memcachefy provides a [http://memcachefy.googlecode.com/svn/trunk/j
 The [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/interceptor/CacheInterceptor.html CacheInterceptor] is a convenience API for intercepting method calls of any existing class, so that the returning values can be cached and used later in future calls to the method. It currently comes in two flavours: [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/CacheProxy.html Dynamic proxies] and [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/Ejb3CacheInterceptor.html EJB3 interceptor]. If you have in your code simple Java objects implementing interfaces, you can use the [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/CacheProxy.html CacheProxy] for generating proxied instances of it. You can choose annotating the methods in your class as [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/interceptor/Cacheable.html Cacheable] or just pass a list of methods (you want to enable caching) in the instantiation of the proxy class.  In case of EJB3 classes you only need to annotate in the class-level of the EJB the use of the [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/Ejb3CacheInterceptor.html EJB3CacheInterceptor], marking the methods you want to enable caching with the [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/interceptor/Cacheable.html Cacheable] annotation. See the [http://code.google.com/p/memcachefy/#Mini_examples Mini examples]. 
 
 <img src="http://memcachefy.googlecode.com/files/memcachefy-interceptor-diag.gif"/>
+
+= Configuration =
+
+[http://code.google.com/p/memcachefy/wiki/Configuration Configuration]
+
+= Examples =
+[http://code.google.com/p/memcachefy/wiki/Examples Examples]
