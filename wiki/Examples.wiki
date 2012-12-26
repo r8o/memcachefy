@@ -1,4 +1,4 @@
-#labels Phase-Implementation
+#labels Phase-Implementation,Featured
 Simple examples
 
 = Cache Manager Builder =
