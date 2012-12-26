@@ -53,31 +53,26 @@ You may want to use the {{{FactoryBean}}} interface for creating instances of [h
 {{{
 	public class CacheBean implements FactoryBean<Cache> {
 
-		private String host;
-		private int port;
+			private String hosts;
 
-		public Cache getObject() throws Exception {
-			return CacheManagerBuilder.newBuilder().
-					setCacheType(CacheType.MEMCACHED).
-					setMemcachedHosts(host+":"+port).
-					setDefaultTtl(120).build().getCache("cache");
-		}
+	    public Cache getObject() throws Exception {
+	    	return CacheManagerBuilder.newBuilder().
+				setCacheType(CacheType.MEMCACHED).
+				setMemcachedHosts(hosts).
+				setDefaultTtl(120).build().getCache("cache");
+	    }
 
-		public Class<? extends Cache> getObjectType() {
-			return Cache.class;
-		}
+	    public Class<? extends Cache> getObjectType() {
+	        return Cache.class;
+	    }
 
-		public boolean isSingleton() {
-			return true;
-		}
+	    public boolean isSingleton() {
+	        return true;
+	    }
 
-		public void setHost(String host) {
-			this.host = host;
-		}
-
-		public void setPort(int port) {
-			this.port = port;
-		}
+	    public void setHosts(String hosts) {
+	        this.hosts = hosts;
+	    }
 	}
 
 }}}
