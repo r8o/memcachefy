@@ -53,7 +53,7 @@ You may want to use the {{{FactoryBean}}} interface for creating instances of [h
 {{{
 	public class CacheBean implements FactoryBean<Cache> {
 
-			private String hosts;
+	    private String hosts;
 
 	    public Cache getObject() throws Exception {
 	    	return CacheManagerBuilder.newBuilder().
