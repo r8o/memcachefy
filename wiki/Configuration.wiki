@@ -70,3 +70,14 @@ public class CacheBean implements FactoryBean<Cache> {
 }
 
 }}}
+
+Then add the bean definition into the spring context configuration file:
+
+{{{
+    <beans ...> 
+        <bean name="cacheBean" class="CacheBean">
+            <property name="port" value="11211"/>
+            <property name="host" value="localhost"/>
+        </bean>
+    </beans>
+}}}
