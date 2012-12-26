@@ -3,7 +3,7 @@ Examples
 
 = Usage =
 
-Import the jar file (memcachefy-1.0.0.jar) into the _classpath_ of your project. In case you are a Maven user you can add the following dependency:
+Maven users can add the following dependency to the *pom.xml* file:
 
 {{{
 <dependency>
@@ -11,13 +11,6 @@ Import the jar file (memcachefy-1.0.0.jar) into the _classpath_ of your project.
   <artifactId>memcachefy</artifactId>
   <version>1.0.0</version>
 </dependency>
-}}}
-
-_*Note*: As of now Memcachefy dependency is still not deployed into a public maven repository. You can install it into your local repository by manually downloading the jar and executing the command:_
-
-{{{
-    mvn install:install-file -Dfile=memcachefy-1.0.0 -DgroupId=com.googlecode.memcachefy \ 
-    -DartifactId=memcachefy -Dversion=1.0.0 -Dpackaging=jar
 }}}
 
 = Configuring the cache interceptor =
