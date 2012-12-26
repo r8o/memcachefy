@@ -44,29 +44,30 @@ When using the [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecod
 You may want to use the {{{FactoryBean}}} interface for creating instances of [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/Cache.html Cache] for integration with Spring:
 
 {{{
-	public class CacheBean implements FactoryBean<Cache> {
+public class CacheBean implements FactoryBean<Cache> {
 
-	    private String hosts;
+    private String hosts;
 
-	    public Cache getObject() throws Exception {
-	    	return CacheManagerBuilder.newBuilder().
+    public Cache getObject() throws Exception {
+        
+        return CacheManagerBuilder.newBuilder().
 				setCacheType(CacheType.MEMCACHED).
 				setMemcachedHosts(hosts).
 				setDefaultTtl(120).build().getCache("cache");
-	    }
+    }
 
-	    public Class<? extends Cache> getObjectType() {
-	        return Cache.class;
-	    }
+    public Class<? extends Cache> getObjectType() {
+        return Cache.class;
+    }
 
-	    public boolean isSingleton() {
-	        return true;
-	    }
+    public boolean isSingleton() {
+        return true;
+    }
 
-	    public void setHosts(String hosts) {
-	        this.hosts = hosts;
-	    }
-	}
+    public void setHosts(String hosts) {
+        this.hosts = hosts;
+    }
+}
 
 }}}
 
