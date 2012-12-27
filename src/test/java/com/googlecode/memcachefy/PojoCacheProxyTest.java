@@ -23,7 +23,7 @@ public class PojoCacheProxyTest {
 	Map<String, CacheInfo> infoMap;
 
 	@Before
-	public void init() throws CacheException {
+	public void init() throws Exception {
 		infoMap = new HashMap<String, CacheInfo>();
 
 		infoMap.put("listDummy", new CacheInfo(60));
@@ -80,7 +80,7 @@ public class PojoCacheProxyTest {
 			l.add(s1);
 			System.out.println("Calling the REAL slow method.....");
 			try {
-				Thread.sleep(4000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 
 			}
@@ -99,7 +99,7 @@ public class PojoCacheProxyTest {
 			l.add(s1);
 			System.out.println("Calling the REAL slow method 2.....");
 			try {
-				Thread.sleep(4000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 
 			}

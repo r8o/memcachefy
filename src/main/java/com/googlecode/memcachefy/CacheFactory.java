@@ -23,12 +23,15 @@ import org.apache.log4j.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 
 /**
  * Cache Factory for easily creating new instances of {@link Cache}.
- * It will read the cache configuration in a property file named <tt>cache-manager.properties</tt>
+ * It will read the cache configuration in a property file named <tt>memcachefy.properties</tt>
  * in the classpath.
  *
  * @author bhlangonijr
@@ -38,35 +41,79 @@ public class CacheFactory {
 	private static final int DEFAULT_ENTRY_TTL = 600;
 	private static final int INITIAL_MAX_ENTRIES = 5000;
 	private static final CacheType DEFAULT_CACHE_TYPE = CacheType.ONHEAP;
-	private static final String propertiesFile = "cache-manager.properties";
+
+	public static final String DEFAULT_PROPERTIES = "memcachefy.properties";
+	public static final String DEFAULT_PROPERTIES_XML = "memcachefy-properties.xml";
+
 	private static CacheManager cacheManager;
 
-	private static Properties properties;
+	private static Properties properties = new Properties();
 
-	public static <K, V> Cache<K, V> getCache(String name) {
+	/**
+	 * Retrieve a cache object from a {@link CacheManager} using the parameters
+	 * present in a default configuration file {memcachefy.properties, memcachefy-properties.xml}.
+	 *
+	 * @param name Cache name
+	 * @param <K>  Key type
+	 * @param <V>  Value type
+	 * @return A Cache object
+	 * @throws Exception
+	 */
+	public static <K, V> Cache<K, V> getCache(String name) throws Exception {
 		if (cacheManager == null) {
-			initialize();
+			loadDefaultProperties();
+			cacheManager = getCacheManager(properties);
 		}
-		Cache<K, V> c = null;
-		try {
-			c = cacheManager.getCache(name);
-		} catch (CacheException e) {
-			log.error("Couldn't create a new cache instance: ", e);
-		}
-		return c;
+		return cacheManager.getCache(name);
 	}
 
-	private static synchronized void initialize() {
-		if (properties == null) {
-			try {
-				Thread thread = Thread.currentThread();
-				ClassLoader classLoader = thread.getContextClassLoader();
-				properties = new Properties();
-				properties.load(classLoader.getResourceAsStream(propertiesFile));
-			} catch (Exception e) {
-				log.error("Error while loading " + propertiesFile + " file.", e);
-			}
+	/**
+	 *  Retrieve a cache object from a {@link CacheManager} using the cache parameters
+	 *  from the properties file
+	 * @param name Cache name
+	 * @param propertiesFile Path + name of the properties file (*.properties, *.xml)
+	 * @param <K>  Key type
+	 * @param <V>  Value type
+	 * @return A Cache object
+	 * @throws Exception
+	 */
+	public static <K, V> Cache<K, V> getCache(String name, String propertiesFile) throws Exception {
+
+		final Properties properties = new Properties();
+		if (propertiesFile.toLowerCase().endsWith(".xml")) {
+			properties.loadFromXML(new FileInputStream(propertiesFile));
+		} else {
+			properties.load(new FileInputStream(propertiesFile));
 		}
+
+		CacheManager cacheManager = getCacheManager(properties);
+
+		return cacheManager.getCache(name);
+	}
+
+	private static synchronized void loadDefaultProperties() throws IOException {
+
+		properties.clear();
+		final String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		File fileProps = new File(path+"/"+DEFAULT_PROPERTIES);
+		if (!fileProps.exists()) {
+			fileProps = new File(path+"/"+DEFAULT_PROPERTIES_XML);
+			properties.loadFromXML(new FileInputStream(fileProps));
+		} else {
+			properties.load(new FileInputStream(fileProps));
+		}
+
+		if (fileProps.exists()) {
+			log.info("Found configuration file at: "+fileProps.getAbsolutePath());
+		}
+
+
+	}
+
+	private static synchronized CacheManager getCacheManager(Properties properties) throws IOException {
+
+		CacheManager manager;
+
 		int ttl = DEFAULT_ENTRY_TTL;
 		try {
 			ttl = Integer.parseInt(properties.getProperty("cache.entry.ttl", "600"));
@@ -95,6 +142,7 @@ public class CacheFactory {
 		} catch (Exception e) {
 			log.error("Error reading transcoder", e);
 		}
+
 		if (CacheType.MEMCACHED.equals(type)) {
 			final MemcachedManager mcache = new MemcachedManager();
 			mcache.setCacheTranscoder(transcoder);
@@ -111,13 +159,15 @@ public class CacheFactory {
 			} else if (CacheTranscoder.KRYO.equals(transcoder)) {
 				mcache.setKryo(new Kryo());
 			}
-			cacheManager = mcache;
+			manager = mcache;
 		} else {
 			InMemoryCacheManager icache = new InMemoryCacheManager();
 			icache.setMaxEntries(maxEntries);
 			icache.setTtl(ttl);
-			cacheManager = icache;
+			manager = icache;
 		}
+
+		return manager;
 
 	}
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="cache.entry.ttl">60</entry>
+    <entry key="cache.type">MEMCACHED</entry>
+    <entry key="cache.initialMaxEntries">5000</entry>
+    <entry key=" memcached.hosts">localhost\:11211</entry>
+    <entry key=" memcached.transcoder">NONE</entry>
+</properties>
