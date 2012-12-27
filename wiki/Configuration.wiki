@@ -13,7 +13,7 @@ Maven users can add the following dependency to the *pom.xml* file:
 </dependency>
 }}}
 
-= Cache interceptor default configuration file =
+= Cache interceptor bootstrapping =
 
 By default, it will look for a configuration file named "memcachefy.properties" in the classpath.
 
