@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class CacheFactoryTest {
 
 	@Test
-	public void testMemcachedFactory() throws CacheException {
+	public void testMemcachedFactory() throws Exception {
 
 		Cache<String, String> myCache = CacheFactory.getCache("myCache");
 

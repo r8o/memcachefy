@@ -21,6 +21,7 @@ import com.googlecode.memcachefy.hashkey.HashKeyGenerator;
 import com.googlecode.memcachefy.hashkey.HashKeyGeneratorStrategy;
 import org.apache.log4j.Logger;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -59,7 +60,16 @@ public abstract class CacheInterceptor {
 	private ExecutorService service = Executors.newSingleThreadExecutor();
 
 	public CacheInterceptor() {
-		this.cache = CacheFactory.getCache("DefaultCache");
+		try {
+			this.cache = CacheFactory.getCache("DefaultCache");
+		} catch (Exception e) {
+			if (e instanceof FileNotFoundException) {
+				log.warn("Default configuration file not found {"+CacheFactory.DEFAULT_PROPERTIES+
+						", "+CacheFactory.DEFAULT_PROPERTIES_XML+"}.");
+			} else {
+				log.error("Error initializing",e);
+			}
+		}
 	}
 
 	public CacheInterceptor(Cache<String, Object> cache) {
