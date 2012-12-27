@@ -19,7 +19,7 @@ By default, it will look for a configuration file named "memcachefy.properties" 
 
 Example:
 {{{
-## file: cache-manager.properties
+## file: memcachefy.properties
 
 cache.entry.ttl=60
 cache.type=MEMCACHED
