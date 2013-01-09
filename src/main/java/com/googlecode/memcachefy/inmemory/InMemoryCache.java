@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * In-memory (on heap) cache implementation
@@ -35,10 +36,12 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 	private final ConcurrentLinkedHashMap<K, EntryInfo> expireMap;
 	private final ExecutorService service = Executors.newSingleThreadExecutor();
 	private final AtomicInteger executions = new AtomicInteger();
-	private static final int PURGE_THRESHOLD = 1000;
+	private static final int PURGE_COUNT_THRESHOLD = 1000;
+	private static final int PURGE_TIME_THRESHOLD = 5000;
 	private static final int DEFAULT_MAX_ENTRIES = 5000;
 	private static final int DEFAULT_TTL = 600;
 	private int ttl = DEFAULT_TTL;
+	private AtomicLong purgetLastTimestamp = new AtomicLong(System.currentTimeMillis());
 
 	public InMemoryCache(int maxEntries) {
 		map = new ConcurrentLinkedHashMap.Builder().
@@ -71,6 +74,10 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public V get(K key) throws CacheException {
+		if (purgeExpiredEntry(key)) {
+			//expired
+			return null;
+		}
 		return map.get(key);
 	}
 
@@ -116,6 +123,7 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public void clear() throws CacheException {
+		expireMap.clear();
 		map.clear();
 	}
 
@@ -126,7 +134,8 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 
 	private void purgeExpired() {
 
-		if (executions.incrementAndGet() % PURGE_THRESHOLD == 0) {
+		if (executions.incrementAndGet() % PURGE_COUNT_THRESHOLD == 0 &&
+				System.currentTimeMillis() - purgetLastTimestamp.get() >= PURGE_TIME_THRESHOLD) {
 			service.execute(new Runnable() {
 				@Override
 				public void run() {
@@ -134,9 +143,7 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 					log.info("Purging entries...");
 					int count = 0;
 					for (EntryInfo entry : expireMap.values()) {
-						if (System.currentTimeMillis() - entry.timestamp >= entry.ttl) {
-							map.remove(entry.key);
-							expireMap.remove(entry.key);
+						if (purgeExpiredEntry(entry.key)) {
 							count++;
 						}
 					}
@@ -146,6 +153,18 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 			});
 		}
 
+	}
+
+	private boolean purgeExpiredEntry(K key) {
+		boolean result = false;
+		EntryInfo entry = expireMap.get(key);
+		if (entry != null &&
+				System.currentTimeMillis() - entry.timestamp >= entry.ttl) {
+			map.remove(entry.key);
+			expireMap.remove(entry.key);
+			result = true;
+		}
+		return result;
 	}
 
 	@Override
