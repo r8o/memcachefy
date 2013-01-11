@@ -9,7 +9,7 @@ Maven users can add the following dependency to the *pom.xml* file:
 <dependency>
   <groupId>com.googlecode.memcachefy</groupId>
   <artifactId>memcachefy</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.3</version>
 </dependency>
 }}}
 
