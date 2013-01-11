@@ -35,7 +35,9 @@ public class InMemoryCacheManager implements CacheManager {
 	 */
 	@Override
 	public <K, V> Cache<K, V> getCache(String name) throws CacheException {
-		return new InMemoryCache<K, V>(maxEntries);
+		final InMemoryCache<K, V> cache = new InMemoryCache<K, V>(getMaxEntries());
+		cache.setTtl(getTtl());
+		return cache;
 	}
 
 	public int getMaxEntries() {

@@ -41,7 +41,7 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 	private static final int PURGE_COUNT_THRESHOLD = 1000;
 	private static final int PURGE_TIME_THRESHOLD = 5000;
 	private static final int DEFAULT_MAX_ENTRIES = 5000;
-	private static final int DEFAULT_TTL = 600;
+	private static final int DEFAULT_TTL = 0;
 	private int ttl = DEFAULT_TTL;
 	private AtomicLong purgetLastTimestamp = new AtomicLong(System.currentTimeMillis());
 
@@ -123,7 +123,9 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 	@Override
 	public V putAndGet(K key, V value, int ttl) throws CacheException {
 		purgeExpired();
-		expireMap.put(key, new EntryInfo(ttl, System.currentTimeMillis(), key));
+		if (ttl > 0) {
+			expireMap.put(key, new EntryInfo(ttl, System.currentTimeMillis(), key));
+		}
 		return map.put(key, value);
 	}
 
@@ -135,7 +137,9 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public void put(K key, V value, int ttl) throws CacheException {
-		expireMap.put(key, new EntryInfo(ttl, System.currentTimeMillis(), key));
+		if (ttl > 0) {
+			expireMap.put(key, new EntryInfo(ttl, System.currentTimeMillis(), key));
+		}
 		map.put(key, value);
 	}
 
@@ -176,6 +180,7 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 							count++;
 						}
 					}
+					purgetLastTimestamp.set(System.currentTimeMillis());
 					log.info("Purged " + count + " expired entries in " +
 							((double) (System.currentTimeMillis() - init) / 1000.0) + " seconds.");
 				}
