@@ -188,7 +188,7 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 		boolean result = false;
 		EntryInfo entry = expireMap.get(key);
 		if (entry != null &&
-				System.currentTimeMillis() - entry.timestamp >= entry.ttl) {
+				System.currentTimeMillis() - entry.timestamp * 1000 >= entry.ttl) {
 			map.remove(entry.key);
 			expireMap.remove(entry.key);
 			result = true;
