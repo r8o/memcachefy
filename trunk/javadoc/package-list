@@ -3,3 +3,4 @@ com.googlecode.memcachefy.hashkey
 com.googlecode.memcachefy.inmemory
 com.googlecode.memcachefy.interceptor
 com.googlecode.memcachefy.memcached
+com.googlecode.memcachefy.stats
