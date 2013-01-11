@@ -1,6 +1,11 @@
 #labels Featured
 The version history
 
+== Version 1.0.2 ==
+
+Fixed cache entry expiration code at InMemoryCache;
+Added CacheStatistics to Cache.
+
 == Version 1.0.1 ==
 
 Minor improvements in the Cache Interceptor configuration bootstrapping. Added support to xml file properties.
