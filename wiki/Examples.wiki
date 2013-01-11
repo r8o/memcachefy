@@ -153,3 +153,22 @@ _*Note:* Enabling this option can be harmful if you don't know exactly the impac
     ...
 
 }}}
+
+= Statistics =
+
+You can collect statistic about the cache usage:
+
+{{{
+  CacheManager cacheManager = CacheManagerBuilder.newBuilder().
+		setCacheType(CacheType.ONHEAP).
+                setMaxEntries(5000).
+		setDefaultTtl(60).build();
+
+    Cache<String, String> cache = cacheManager.getCache("test");
+
+    ...
+
+		System.out.println("Cache hits:   "+cache.getCacheStatistics().getCacheHits());
+		System.out.println("Cache misses: "+cache.getCacheStatistics().getCacheMisses());
+
+}}}
