@@ -32,7 +32,7 @@ public class PojoCacheProxyTest {
 	}
 
 	@Test
-	public void testPojoProxy() {
+	public void testPojoProxy() throws Exception {
 		BasicConfigurator.configure();
 
 		Action action = (Action) CacheProxy.newInstance(new MyAction(), infoMap);
@@ -47,10 +47,14 @@ public class PojoCacheProxyTest {
 		}
 
 		assertNotNull(d);
+
+		System.out.println("Cache hits:   "+CacheFactory.getCache("DefaultCache").getCacheStatistics().getCacheHits());
+		System.out.println("Cache misses: "+CacheFactory.getCache("DefaultCache").getCacheStatistics().getCacheMisses());
+
 	}
 
 	@Test
-	public void testPojoProxyWithAnnotations() {
+	public void testPojoProxyWithAnnotations() throws Exception {
 		BasicConfigurator.configure();
 
 		Action action = (Action) CacheProxy.newInstance(new MyActionWithAnnotation());
@@ -65,6 +69,9 @@ public class PojoCacheProxyTest {
 		}
 
 		assertNotNull(d);
+
+		System.out.println("Cache hits:   "+CacheFactory.getCache("DefaultCache").getCacheStatistics().getCacheHits());
+		System.out.println("Cache misses: "+CacheFactory.getCache("DefaultCache").getCacheStatistics().getCacheMisses());
 
 	}
 
