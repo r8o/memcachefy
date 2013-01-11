@@ -4,6 +4,7 @@ The version history
 == Version 1.0.2 ==
 
   Fixed cache entry expiration code at [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/inmemory/InMemoryCache.html InMemoryCache]
+
   Added [http://memcachefy.googlecode.com/svn/trunk/javadoc/com/googlecode/memcachefy/stats/CacheStatistics.html CacheStatistics] to Cache
 
 == Version 1.0.1 ==
