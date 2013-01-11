@@ -18,6 +18,8 @@ package com.googlecode.memcachefy.inmemory;
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
 import com.googlecode.memcachefy.Cache;
 import com.googlecode.memcachefy.CacheException;
+import com.googlecode.memcachefy.stats.CacheStatistics;
+import com.googlecode.memcachefy.stats.CacheStatisticsImpl;
 import org.apache.log4j.Logger;
 
 import java.util.concurrent.ExecutorService;
@@ -43,11 +45,14 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 	private int ttl = DEFAULT_TTL;
 	private AtomicLong purgetLastTimestamp = new AtomicLong(System.currentTimeMillis());
 
+	private final CacheStatisticsImpl cacheStatistics;
+
 	public InMemoryCache(int maxEntries) {
 		map = new ConcurrentLinkedHashMap.Builder().
 				maximumWeightedCapacity(maxEntries).build();
 		expireMap = new ConcurrentLinkedHashMap.Builder().
 				maximumWeightedCapacity(maxEntries).build();
+		cacheStatistics = new CacheStatisticsImpl();
 	}
 
 	public InMemoryCache() {
@@ -78,7 +83,15 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 			//expired
 			return null;
 		}
-		return map.get(key);
+		final V value = map.get(key);
+
+		if (value == null) {
+			cacheStatistics.cacheMissesIncAndGet();
+		} else {
+			cacheStatistics.cacheHitsIncAndGet();
+		}
+
+		return value;
 	}
 
 	@Override
@@ -92,6 +105,13 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 		if (info != null) {
 			info.timestamp = System.currentTimeMillis(); // touch
 		}
+
+		if (e == null) {
+			cacheStatistics.cacheMissesIncAndGet();
+		} else {
+			cacheStatistics.cacheHitsIncAndGet();
+		}
+
 		return e;
 	}
 
@@ -134,6 +154,11 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 	@Override
 	public int size() throws CacheException {
 		return map.size();
+	}
+
+	@Override
+	public CacheStatistics getCacheStatistics() {
+		return cacheStatistics;
 	}
 
 	private void purgeExpired() {

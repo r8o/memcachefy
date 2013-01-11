@@ -16,15 +16,14 @@
 package com.googlecode.memcachefy;
 
 
+import com.googlecode.memcachefy.stats.CacheStatistics;
+
 /**
  * A Cache efficiently stores temporary objects primarily to improve an application's performance.
  *
  * @author bhlangonijr
  */
 
-/*
-This interface is based on the apache shiro (http://shiro.apache.org/) cache model
- */
 public interface Cache<K, V> {
 
 	/**
@@ -122,6 +121,12 @@ public interface Cache<K, V> {
 	 *
 	 */
 	public int size() throws CacheException;
+
+	/**
+	 * Cache statistics
+	 * @return cache statistics over the cache
+	 */
+	public CacheStatistics getCacheStatistics();
 
 	/**
 	 * Close and release de resources for current cache instance

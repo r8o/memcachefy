@@ -18,6 +18,8 @@ package com.googlecode.memcachefy.memcached;
 import com.googlecode.memcachefy.Cache;
 import com.googlecode.memcachefy.CacheException;
 import com.googlecode.memcachefy.CacheTranscoder;
+import com.googlecode.memcachefy.stats.CacheStatistics;
+import com.googlecode.memcachefy.stats.CacheStatisticsImpl;
 import net.spy.memcached.CASMutation;
 import net.spy.memcached.CASMutator;
 import net.spy.memcached.MemcachedClient;
@@ -47,6 +49,7 @@ public class Memcached<K, V> implements Cache<K, V> {
 	private int ttl;
 	private ThreadLocal<? extends Transcoder<?>> threadLocalTranscoder;
 	private final CacheTranscoder cacheTranscoder;
+	private final CacheStatisticsImpl cacheStatistics;
 
 	@SuppressWarnings("unchecked")
 	private Transcoder<CacheWrapper<V>> getTranscoder() {
@@ -68,6 +71,7 @@ public class Memcached<K, V> implements Cache<K, V> {
 		this.cache = cache;
 		this.ttl = ttl;
 		this.cacheTranscoder = cacheTranscoder;
+		this.cacheStatistics = new CacheStatisticsImpl();
 	}
 
 	/**
@@ -87,7 +91,8 @@ public class Memcached<K, V> implements Cache<K, V> {
 	@SuppressWarnings("unchecked")
 	public V get(K key) throws CacheException {
 
-		String userKey = key instanceof String ? (String) key : Integer.toString(key.hashCode());
+		String userKey = getCacheKey(key);
+
 		try {
 			if (log.isDebugEnabled()) {
 				log.debug("Getting object from cache [" +
@@ -106,8 +111,10 @@ public class Memcached<K, V> implements Cache<K, V> {
 				if (log.isDebugEnabled()) {
 					log.debug("Entry for [" + userKey + "] is null.");
 				}
+				cacheStatistics.cacheMissesIncAndGet();
 				return null;
 			}
+			cacheStatistics.cacheHitsIncAndGet();
 			return entry.getObject();
 		} catch (Throwable t) {
 			throw new CacheException(t);
@@ -119,7 +126,9 @@ public class Memcached<K, V> implements Cache<K, V> {
 	 */
 	@Override
 	public V getAndTouch(K key, int ttl) throws CacheException {
-		String userKey = key instanceof String ? (String) key : Integer.toString(key.hashCode());
+
+		String userKey = getCacheKey(key);
+
 		try {
 			if (log.isDebugEnabled()) {
 				log.debug("Getting (and touching) object from cache [" +
@@ -137,8 +146,10 @@ public class Memcached<K, V> implements Cache<K, V> {
 				if (log.isDebugEnabled()) {
 					log.debug("Entry for [" + userKey + "] is null.");
 				}
+				cacheStatistics.cacheMissesIncAndGet();
 				return null;
 			}
+			cacheStatistics.cacheHitsIncAndGet();
 			return entry.getObject();
 		} catch (Throwable t) {
 			throw new CacheException(t);
@@ -150,7 +161,9 @@ public class Memcached<K, V> implements Cache<K, V> {
 	 */
 	@Override
 	public V putAndGet(final K key, final V value, int ttl) throws CacheException {
-		String userKey = key instanceof String ? (String) key : Integer.toString(key.hashCode());
+
+		String userKey = getCacheKey(key);
+
 		if (log.isDebugEnabled()) {
 			log.debug("Putting object in cache [" +
 					cache.getAvailableServers() + "] for key [" + userKey + "]");
@@ -205,7 +218,8 @@ public class Memcached<K, V> implements Cache<K, V> {
 	 */
 	@Override
 	public void put(K key, V value, int ttl) throws CacheException {
-		String userKey = key instanceof String ? (String) key : Integer.toString(key.hashCode());
+
+		String userKey = getCacheKey(key);
 
 		if (log.isDebugEnabled()) {
 			log.debug("Putting object in cache [" + cache.getAvailableServers() +
@@ -232,7 +246,7 @@ public class Memcached<K, V> implements Cache<K, V> {
 	@Override
 	public V remove(K key) throws CacheException {
 
-		String userKey = key instanceof String ? (String) key : Integer.toString(key.hashCode());
+		String userKey = getCacheKey(key);
 
 		if (log.isDebugEnabled()) {
 			log.debug("Removing object from cache [" +
@@ -285,6 +299,11 @@ public class Memcached<K, V> implements Cache<K, V> {
 		}
 	}
 
+	@Override
+	public CacheStatistics getCacheStatistics() {
+		return cacheStatistics;
+	}
+
 	private String readMemcachedProperty(String name, SocketAddress socketAddress) {
 		String value = null;
 		Map<String, String> map = cache.getStats().get(socketAddress);
@@ -294,53 +313,8 @@ public class Memcached<K, V> implements Cache<K, V> {
 		return value;
 	}
 
-	/**
-	 * Returns the size (in bytes) that this Memcached is using in memory (RAM), or <code>-1</code> if that
-	 * number is unknown or cannot be calculated.
-	 *
-	 * @return the size (in bytes) that this Memcached is using in memory (RAM), or <code>-1</code> if that
-	 *         number is unknown or cannot be calculated.
-	 */
-	public long getMemoryUsage() {
-		try {
-			return -1;
-		} catch (Throwable t) {
-			return -1;
-		}
-	}
-
-	/**
-	 * Returns the size (in bytes) that this Memcached's memory store is using (RAM), or <code>-1</code> if
-	 * that number is unknown or cannot be calculated.
-	 *
-	 * @return the size (in bytes) that this Memcached's memory store is using (RAM), or <code>-1</code> if
-	 *         that number is unknown or cannot be calculated.
-	 * @throws com.googlecode.memcachefy.CacheException
-	 *
-	 */
-	public long getMemoryStoreSize() throws CacheException {
-		try {
-			return -1;
-		} catch (Throwable t) {
-			throw new CacheException(t);
-		}
-	}
-
-	/**
-	 * Returns the size (in bytes) that this Memcached's disk store is consuming or <code>-1</code> if
-	 * that number is unknown or cannot be calculated.
-	 *
-	 * @return the size (in bytes) that this Memcached's disk store is consuming or <code>-1</code> if
-	 *         that number is unknown or cannot be calculated.
-	 * @throws com.googlecode.memcachefy.CacheException
-	 *
-	 */
-	public long getDiskStoreSize() throws CacheException {
-		try {
-			return -1;
-		} catch (Throwable t) {
-			throw new CacheException(t);
-		}
+	private String getCacheKey(K key) {
+		return name + (key instanceof String ? (String) key : Integer.toString(key.hashCode()));
 	}
 
 	public String getName() {
