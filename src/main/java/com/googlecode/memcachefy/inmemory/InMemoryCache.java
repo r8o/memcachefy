@@ -83,6 +83,10 @@ public class InMemoryCache<K, V> implements Cache<K, V> {
 
 	@Override
 	public V getAndTouch(K key, int ttl) throws CacheException {
+		if (purgeExpiredEntry(key)) {
+			//expired
+			return null;
+		}
 		V e = map.get(key);
 		EntryInfo info = expireMap.get(key);
 		if (info != null) {
