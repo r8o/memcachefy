@@ -168,7 +168,7 @@ You can collect statistic about the cache usage:
 
     ...
 
-		System.out.println("Cache hits:   "+cache.getCacheStatistics().getCacheHits());
-		System.out.println("Cache misses: "+cache.getCacheStatistics().getCacheMisses());
+    System.out.println("Cache hits:   "+cache.getCacheStatistics().getCacheHits());
+    System.out.println("Cache misses: "+cache.getCacheStatistics().getCacheMisses());
 
 }}}
