@@ -156,7 +156,7 @@ _*Note:* Enabling this option can be harmful if you don't know exactly the impac
 
 = Statistics =
 
-You can collect statistic about the cache usage:
+You can collect statistics about the cache usage:
 
 {{{
   CacheManager cacheManager = CacheManagerBuilder.newBuilder().
